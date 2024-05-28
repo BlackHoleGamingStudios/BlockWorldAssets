@@ -1,3 +1,5 @@
+echo "Git pull"
+git pull
 echo "Install dependencies"
 npm i
 git config --local user.email "elias.elliotson@gmail.com"
