@@ -3,7 +3,6 @@ import { fileURLToPath } from "url";
 import * as fs from "fs";
 import { sort } from 'json-keys-sort';
 import jsonFormat from 'json-format';
-import { encryptUrl } from '../js/security/urlEncrypt.mjs';
 
 // Get current directory name
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -29,7 +28,7 @@ for (let i = 0; i < folders.length; i++) {
       ) {
         folders.push(testFolder + dirContent[j] + "/");
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 }
 
@@ -44,34 +43,32 @@ var formatSettings = {
 
 // Sort and format json
 for (let file in jsons) {
-  console.log("Sorting "+path.resolve(jsons[file]));
+  console.log("Sorting " + path.resolve(jsons[file]));
   let jsonCode = sort(JSON.parse(fs.readFileSync(path.resolve(jsons[file])).toString()), true);
-  
-  if (path.basename(path.resolve(jsons[file])) != "package-lock.json") {
-    let scan = [jsonCode];
-    for (let i in scan) {
-      if (Object.prototype.toString.call(scan[i]) === '[object Array]') {
-        for (let j in scan[i]) {
-          if (typeof scan[i][j] === 'string' && scan[i][j].startsWith('>')) {
-            scan[i][j]=encryptUrl(scan[i][j].slice(1));
-          } else if (typeof scan[i][j] === 'object' && scan[i][j] !== null) {
-            scan.push(scan[i][j]);
-          }
+
+  let scan = [jsonCode];
+  for (let i in scan) {
+    if (Object.prototype.toString.call(scan[i]) === '[object Array]') {
+      for (let j in scan[i]) {
+        if (typeof scan[i][j] === 'string') {
+          scan[i][j] = scan[i][j];
+        } else if (typeof scan[i][j] === 'object' && scan[i][j] !== null) {
+          scan.push(scan[i][j]);
         }
-      } else {
-        for (const [key, value] of Object.entries(scan[i])) {
-          if (typeof value === 'string' && value.startsWith('>')) {
-            scan[i][key]=encryptUrl(scan[i][key].slice(1))
-          } else if (typeof value === 'object' && value !== null) {
-            scan.push(value);
-          }
+      }
+    } else {
+      for (const [key, value] of Object.entries(scan[i])) {
+        if (typeof value === 'string') {
+          scan[i][key] = scan[i][key];
+        } else if (typeof value === 'object' && value !== null) {
+          scan.push(value);
         }
       }
     }
   }
 
-  let jsonCodePretty = jsonFormat(jsonCode, formatSettings)+"\n";
-  
+  let jsonCodePretty = jsonFormat(jsonCode, formatSettings) + "\n";
+
   fs.writeFileSync(path.resolve(jsons[file]), jsonCodePretty);
   console.log("Done.")
   console.log("")
