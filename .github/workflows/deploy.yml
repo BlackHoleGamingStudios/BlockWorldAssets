@@ -3,7 +3,7 @@ name: Deploy
 
 on:
   workflow_run:
-    workflows: [Copyright, Sort]
+    workflows: [Copyright, Sort, List]
     types:
       - completed
 
