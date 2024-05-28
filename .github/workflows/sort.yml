@@ -1,0 +1,22 @@
+name: Sort
+
+permissions: write-all
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  sort-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2.3.4
+      - name: Give json sort script running permissions
+        run: chmod +x bin/sort-json.sh
+      - name: Run sort json script
+        run: bin/sort-json.sh

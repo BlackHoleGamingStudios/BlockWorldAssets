@@ -1,0 +1,20 @@
+{
+    "author": "John Doe",
+    "description": "An indie game developed by a few teenagers.",
+    "devDependencies": {
+        "fs": "^0.0.1-security",
+        "json-format": "^1.0.1",
+        "json-keys-sort": "^2.1.0",
+        "path": "^0.12.7",
+        "steggy": "^2.0.1",
+        "url": "^0.11.3"
+    },
+    "keywords": [
+        "html",
+        "css"
+    ],
+    "license": "MIT",
+    "main": "index.html",
+    "name": "block-world",
+    "version": "a1.0.0"
+}
